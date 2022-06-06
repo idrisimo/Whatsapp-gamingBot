@@ -67,14 +67,14 @@ client.on('message_create', async msg => {
         // Send a new message to the same chat
         let chat = await msg.getChat();
         if (chat.isGroup) {
-            playerList = []
             startTime = msg.timestamp
             timerIsArmed = true
-            client.sendMessage(chat.id._serialized, '*--BAMBOO BOT--*\nStarting New Session! \n\n Reply to this message with *!x* if your looking to play this session. The bot will do its best to split everyone into random teams.');
+            client.sendMessage(chat.id._serialized, '🤖*--BAMBOO BOT--*🤖\nStarting New Session! \n\n *Reply to this message* with *!x* if your looking to play this session. The bot will do its best to split everyone into random teams.');
             await waitFor(15000)
             await client.sendMessage(chat.id._serialized, lfgxup(playerList))
+            playerList = []
         } else {
-            msg.reply('This command can only be used in a group!');
+            msg.reply('🤖*--BAMBOO BOT--*🤖\nThis command can only be used in a group!');
         }
 
     } else if (msg.body === '!x') {
@@ -82,21 +82,20 @@ client.on('message_create', async msg => {
         let quotedMessage = await msg.getQuotedMessage()
         if (chat.isGroup) {
             if (msg.hasQuotedMsg) {
-                if (quotedMessage.body === '!lfg') {
+                if (quotedMessage.body.includes('Starting New Session!')) {
                     const contact = await msg.getContact();
                     const name = contact.pushname
                     playerList.push(name)
                 } else {
-                    msg.reply('you need to reply to the "*!lfg*" command.')
+                    msg.reply('🤖*--BAMBOO BOT--*🤖\nyou need to reply to the "*Starting New Session!*" message.')
                 }
             } else {
-                msg.reply('you need to reply to the "*!lfg*" command.')
+                msg.reply('🤖*--BAMBOO BOT--*🤖\nyou need to reply to the "*!lfg*" command.')
             }
         } else {
 
-            msg.reply('This command can only be used in a group!');
+            msg.reply('🤖*--BAMBOO BOT--*🤖\nThis command can only be used in a group!');
         }
-        // client.sendMessage(chat.id._serialized, 'message')
     }
 })
 
