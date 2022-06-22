@@ -69,6 +69,12 @@ const lfgxup = (playerList) => {
         return formattedTeams
 }
 
+const waitFor = (time) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(true), time);
+    });
+};
+
 // lfgxup(players)
 
-module.exports = { lfgxup }
+module.exports = { lfgxup, waitFor }

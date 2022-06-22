@@ -1,6 +1,6 @@
 const qrcode = require('qrcode-terminal');
 const { Client, LocalAuth, Buttons, List } = require('whatsapp-web.js');
-const { lfgxup } = require('./handlers');
+const { lfgxup, waitFor } = require('./handlers');
 require('dotenv').config();
 
 
@@ -9,11 +9,7 @@ require('dotenv').config();
 const timer = process.env.TIMER //In seconds
 const groupName = process.env.WHATSAPP_GROUPNAME;
 
-const waitFor = (time) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(true), time);
-    });
-};
+
 
 /* Initialisation and authentication */
 const client = new Client({
