@@ -47,7 +47,6 @@ client.on('message_create', async msg => {
         playerList.push(name)
         console.log("playerlist: ", playerList)
     }
-
     if (msg.body === '!ping') {
         // Send a new message as a reply to the current one
         msg.reply('pong');
@@ -106,15 +105,26 @@ client.on('message_create', async msg => {
         client.sendMessage(msg.from, button);
     } else if (msg.body === '!teams') {
         let chat = await msg.getChat();
+        // console.log("Group Chat", chat)
         if (chat.isGroup) {
-            let sections = [{ title: '', rows: [{ title: 'Join Team', description: '' }] }];
-            let list = new List(`🤖*--BAMBOO BOT--*🤖\nStarting New Session! \n\n Click *Join Session* below, then click *Ready*. The bot will do its best to split everyone into random teams. Be sure to complete the above instructions within *${timer}* seconds, otherwise you will not be included in this session! \n\n _minimum of 5 people need to join (otherwise whats the point just play quads.)_`, 'Join Session', sections, 'Team Maker', 'footer');
-            client.sendMessage(chat.id._serialized, list);
-            await waitFor((timer * 1000))
-            client.sendMessage(chat.id._serialized, '🤖*--BAMBOO BOT--*🤖\nTimes up, generating teams...')
-            await waitFor(5000)
-            await client.sendMessage(chat.id._serialized, lfgxup(playerList))
-            playerList = []
+            if (chat.name === groupName) {
+                let sections = [{ title: '', rows: [{ title: 'Join Team', description: '' }] }];
+
+                let list = new List(`🤖*--BAMBOO BOT--*🤖\nStarting New Session! \n\n Click *Join Session* below, then click *Ready*. The bot will do its best to split everyone into random teams. Be sure to complete the above instructions within *${timer}* seconds, otherwise you will not be included in this session! \n\n _minimum of 5 people need to join (otherwise whats the point just play quads.)_`, 'Join Session', sections, 'Team Maker', 'footer');
+
+                client.sendMessage(chat.id._serialized, list);
+
+                await waitFor((timer * 1000))
+                client.sendMessage(chat.id._serialized, '🤖*--BAMBOO BOT--*🤖\nTimes up, generating teams...')
+                const teams = lfgxup(playerList)
+                await waitFor(3000)
+                if (teams === false) {
+                    await client.sendMessage(chat.id._serialized, "🤖*--BAMBOO BOT--*🤖\nThere's less than four people ready. Try again when more people are ready!")
+                } else {
+                    await client.sendMessage(chat.id._serialized, teams)
+                }
+                playerList = []
+            }
         }
     }
 })

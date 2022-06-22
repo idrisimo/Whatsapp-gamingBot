@@ -42,7 +42,8 @@ const lfgxup = (playerList) => {
     if (playerList.length >= 5) {
         maxGroupSize = 3
     } else if (playerList.length <= 4) {
-        return "There's less than four people ready. Try again when more people are ready!"
+        // return "There's less than four people ready. Try again when more people are ready!"
+        return false
     } else {
         // const slicedGroup = sliceChunks(playerList, maxGroupSize)
         // let listPos = 2
