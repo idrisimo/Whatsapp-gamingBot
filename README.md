@@ -26,4 +26,3 @@ To Install simply
 - [ ] Allow players to specifiy which game/platform they want to play.
 - suggestions for improvement welccome
 
-

@@ -1,6 +1,13 @@
 const qrcode = require('qrcode-terminal');
 const { Client, LocalAuth, Buttons, List } = require('whatsapp-web.js');
 const { lfgxup } = require('./handlers');
+require('dotenv').config();
+
+
+/* User settings */
+
+const timer = process.env.TIMER //In seconds
+const groupName = process.env.WHATSAPP_GROUPNAME;
 
 const waitFor = (time) => {
     return new Promise((resolve, reject) => {
@@ -8,7 +15,7 @@ const waitFor = (time) => {
     });
 };
 
-
+/* Initialisation and authentication */
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: { headless: true }
@@ -34,9 +41,8 @@ client.on('ready', () => {
 client.initialize();
 
 
+/* Main section of code */
 let playerList = []
-const timer = 10 //In seconds
-
 client.on('message_create', async msg => {
     console.log('MESSAGE RECEIVED', msg);
     if (msg.type === 'list_response') {
@@ -109,7 +115,7 @@ client.on('message_create', async msg => {
             let list = new List(`🤖*--BAMBOO BOT--*🤖\nStarting New Session! \n\n Click *Join Session* below, then click *Ready*. The bot will do its best to split everyone into random teams. Be sure to complete the above instructions within *${timer}* seconds, otherwise you will not be included in this session! \n\n _minimum of 5 people need to join (otherwise whats the point just play quads.)_`, 'Join Session', sections, 'Team Maker', 'footer');
             client.sendMessage(chat.id._serialized, list);
             await waitFor((timer * 1000))
-            client.sendMessage(msg.from, '🤖*--BAMBOO BOT--*🤖\nTimes up, generating teams...')
+            client.sendMessage(chat.id._serialized, '🤖*--BAMBOO BOT--*🤖\nTimes up, generating teams...')
             await waitFor(5000)
             await client.sendMessage(chat.id._serialized, lfgxup(playerList))
             playerList = []

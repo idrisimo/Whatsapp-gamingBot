@@ -1,5 +1,7 @@
 
-const players = ['Idris', 'Zach', 'Akmal', 'Rumel', 'Arman']
+require('dotenv').config();
+
+const players = ['Idris', 'Zach', 'Akmal', 'Rumel', 'Bodrul', 'bob', 'jimmy', 'clyde', 'ramsheed']
 
 const sliceChunks = (arr, chunkSize) => {
     const res = [];
@@ -37,13 +39,24 @@ const formatArray = (arr) => {
 
 const lfgxup = (playerList) => {
     playerList = shuffleArray(playerList)
-
-    if (playerList.length == 5) {
+    if (playerList.length >= 5) {
         maxGroupSize = 3
     } else if (playerList.length <= 4) {
         return "There's less than four people ready. Try again when more people are ready!"
     } else {
-        const slicedGroup = sliceChunks(playerList, maxGroupSize)
+        // const slicedGroup = sliceChunks(playerList, maxGroupSize)
+        // let listPos = 2
+
+        // while (slicedGroup[slicedGroup.length - 1].length < maxGroupSize - 1) {
+        //     const moveItem = slicedGroup[slicedGroup.length - listPos].pop()
+        //     slicedGroup[slicedGroup.length - 1].push(moveItem)
+        //     listPos++
+        // }
+        // console.log(slicedGroup)
+        // const formattedTeams = formatArray(slicedGroup)
+        // return formattedTeams
+    }
+    const slicedGroup = sliceChunks(playerList, maxGroupSize)
         let listPos = 2
 
         while (slicedGroup[slicedGroup.length - 1].length < maxGroupSize - 1) {
@@ -51,11 +64,9 @@ const lfgxup = (playerList) => {
             slicedGroup[slicedGroup.length - 1].push(moveItem)
             listPos++
         }
-
+        // console.log(slicedGroup)
         const formattedTeams = formatArray(slicedGroup)
         return formattedTeams
-    }
-
 }
 
 // lfgxup(players)
