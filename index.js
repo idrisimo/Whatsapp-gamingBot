@@ -6,7 +6,7 @@ require('dotenv').config();
 
 /* User settings */
 
-const timer = process.env.TIMER //In seconds
+const timer = parseInt(process.env.TIMER) //In seconds
 const groupName = process.env.WHATSAPP_GROUPNAME;
 
 
